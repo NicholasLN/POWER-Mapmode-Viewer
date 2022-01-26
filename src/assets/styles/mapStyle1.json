@@ -1,0 +1,12 @@
+{
+  "position": "absolute",
+  "left": "0",
+  "right": "0",
+  "top": "0",
+  "marginLeft": "auto",
+  "marginRight": "auto",
+  "width": "100%",
+  "height": "100%",
+  "backgroundColor": "#434343",
+  "backgroundImage": "linear-gradient(#434343, #282828)"
+}
