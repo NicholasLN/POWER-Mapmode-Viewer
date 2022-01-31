@@ -8,6 +8,7 @@ import generateNationStats from "../helpers/generateNationStats";
 import { sumGDP, sumPop } from "../helpers/sums";
 import ReactTooltip from "react-tooltip";
 import "../assets/styles/style.css";
+import Leaderboard from "./Leaderboard";
 var numeral = require("numeral");
 
 function selectColor(colors, domain, x) {
@@ -28,7 +29,10 @@ function formatNumber(x, addCommas = false) {
 }
 
 export default function Map() {
-  const [mapmode, setMapmode] = useState("avgEP");
+  const [mapmode, setMapmode] = useState("growth");
+  const [showButtons, setShowButtons] = useState(false);
+  const [leaderboardStats, setLeaderboardStats] = useState([]);
+  const [showLeaderboard, setShowLeaderboard] = useState(false);
 
   const populateMap = () => {
     const svg = d3.select("svg").append("g");
@@ -44,7 +48,7 @@ export default function Map() {
             color = selectColor(["red", "lightgrey", "green"], [-10, 10], k.growth);
             break;
           case "popGrowth":
-            color = selectColor(["red", "lightgrey", "green"], [-5, 6], k.populationGrowth);
+            color = selectColor(["red", "lightgrey", "green"], [-5, 6], k.popGrowth);
             break;
           case "poverty":
             color = selectColor(["#feff73", "red"], [1, 70], k.poverty);
@@ -87,8 +91,8 @@ export default function Map() {
         path.attr("fill", color);
         path.attr(
           "data-tip",
-          `<div class="tooltip">
-            <h3>${country.name}</h3>
+          `<div>
+            <h5>${country.name}</h5>
             <table>
               <tr>
                 <td><b>GDP:</b></td>
@@ -116,7 +120,7 @@ export default function Map() {
               </tr>
               <tr>
                 <td><b>Population growth:</b></td>
-                <td>${formatNumber(k.populationGrowth)}%</td>
+                <td>${formatNumber(k.popGrowth)}%</td>
               </tr>
               <tr>
                 <td><b>Poverty:</b></td>
@@ -156,7 +160,6 @@ export default function Map() {
   };
 
   useEffect(() => {
-    d3.select("svg").remove();
     d3.select("#map")
       .append("svg")
       .attr("id", "svgMap")
@@ -171,53 +174,81 @@ export default function Map() {
     };
     let zoom = d3.zoom().on("zoom", handleZoom);
     d3.select("#svgMap").call(zoom);
+
+    return () => {
+      d3.select("svg").remove();
+    };
   }, [mapmode]);
   return (
     <>
       <div className="map-controls" style={{ zIndex: "100", position: "absolute", margin: "auto" }}>
-        <button style={buttonStyle} onClick={(e) => setMapmode("growth")}>
-          GDP Growth
-        </button>
-        <button style={buttonStyle} onClick={(e) => setMapmode("popGrowth")}>
-          Population Growth
-        </button>
-        <button style={buttonStyle} onClick={(e) => setMapmode("poverty")}>
-          Poverty
-        </button>
-        <button style={buttonStyle} onClick={(e) => setMapmode("unemployment")}>
-          Unemployment
-        </button>
-        <button style={buttonStyle} onClick={(e) => setMapmode("uninsured")}>
-          Uninsured
-        </button>
-        <button style={buttonStyle} onClick={(e) => setMapmode("lawAndOrder")}>
-          Law and Order (%)
-        </button>
-        <button style={buttonStyle} onClick={(e) => setMapmode("gini")}>
-          Gini
-        </button>
-        <button style={buttonStyle} onClick={(e) => setMapmode("population")}>
-          Population
-        </button>
-        <button style={buttonStyle} onClick={(e) => setMapmode("gdp")}>
-          GDP
-        </button>
-        <button style={buttonStyle} onClick={(e) => setMapmode("gdpPerCapita")}>
-          GDP Per Capita
-        </button>
-        <button style={buttonStyle} onClick={(e) => setMapmode("avgEP")}>
-          Average EP
-        </button>
-        <button style={buttonStyle} onClick={(e) => setMapmode("avgSP")}>
-          Average SP
-        </button>
-        <button style={buttonStyle} onClick={(e) => setMapmode("church")}>
-          Church Attendance
-        </button>
+        {showLeaderboard ? (
+          <button style={buttonStyle} onClick={(e) => setShowLeaderboard(false)}>
+            Hide Leaderboard
+          </button>
+        ) : (
+          <button style={buttonStyle} onClick={(e) => setShowLeaderboard(true)}>
+            Show Leaderboard
+          </button>
+        )}
+        {showButtons ? (
+          <button style={buttonStyle} onClick={(e) => setShowButtons(false)}>
+            Hide Buttons
+          </button>
+        ) : (
+          <button style={buttonStyle} onClick={(e) => setShowButtons(true)}>
+            Show Buttons
+          </button>
+        )}
+        {showButtons && (
+          <>
+            <button style={buttonStyle} onClick={(e) => setMapmode("growth")}>
+              GDP Growth
+            </button>
+            <button style={buttonStyle} onClick={(e) => setMapmode("popGrowth")}>
+              Population Growth
+            </button>
+            <button style={buttonStyle} onClick={(e) => setMapmode("poverty")}>
+              Poverty
+            </button>
+            <button style={buttonStyle} onClick={(e) => setMapmode("unemployment")}>
+              Unemployment
+            </button>
+            <button style={buttonStyle} onClick={(e) => setMapmode("uninsured")}>
+              Uninsured
+            </button>
+            <button style={buttonStyle} onClick={(e) => setMapmode("lawAndOrder")}>
+              Law and Order (%)
+            </button>
+            <button style={buttonStyle} onClick={(e) => setMapmode("gini")}>
+              Gini
+            </button>
+            <button style={buttonStyle} onClick={(e) => setMapmode("population")}>
+              Population
+            </button>
+            <button style={buttonStyle} onClick={(e) => setMapmode("gdp")}>
+              GDP
+            </button>
+            <button style={buttonStyle} onClick={(e) => setMapmode("gdpPerCapita")}>
+              GDP Per Capita
+            </button>
+            <button style={buttonStyle} onClick={(e) => setMapmode("avgEP")}>
+              Average EP
+            </button>
+            <button style={buttonStyle} onClick={(e) => setMapmode("avgSP")}>
+              Average SP
+            </button>
+            <button style={buttonStyle} onClick={(e) => setMapmode("church")}>
+              Church Attendance
+            </button>
+          </>
+        )}
       </div>
+      {showLeaderboard && <Leaderboard mapmode={mapmode} countryData={countryData} />}
       <div style={style1}>
         <div id="map" style={style2}></div>
       </div>
+
       <ReactTooltip
         id="tooltip"
         className="extraClass"

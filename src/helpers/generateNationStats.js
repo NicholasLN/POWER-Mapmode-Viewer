@@ -11,6 +11,7 @@ export default function generateNationStats(nation) {
       return state.name == nation || state.country == nation;
     });
     if (nationData) {
+      returnData.name = nation;
       returnData.gdp = parseFloat(nationData.GDP);
       returnData.population = parseFloat(nationData.population);
       returnData.church = parseFloat(nationData.church);
@@ -26,7 +27,7 @@ export default function generateNationStats(nation) {
       returnData.uninsured = parseFloat(nationData.uninsured);
       returnData.avgEP = parseFloat(nationData["avg EP"]);
       returnData.avgSP = parseFloat(nationData["avg SP"]);
-      returnData.populationGrowth = parseFloat(nationData.populationgrowth);
+      returnData.popGrowth = parseFloat(nationData.populationgrowth);
       returnData.gdpPerCapita = returnData.gdp / returnData.population;
       return returnData;
     } else {
@@ -43,6 +44,7 @@ export default function generateNationStats(nation) {
     let nationStates = statesData.filter((state) => {
       return state.country == nation;
     });
+    returnData.name = nation;
     returnData.gdp = multiNationGDP(nation);
     returnData.population = multiNationPop(nation);
     returnData.church = weightedProperty(nation, "church");
@@ -57,7 +59,7 @@ export default function generateNationStats(nation) {
     returnData.uninsured = weightedProperty(nation, "uninsured");
     returnData.avgEP = weightedProperty(nation, "avg EP");
     returnData.avgSP = weightedProperty(nation, "avg SP");
-    returnData.populationGrowth = weightedProperty(nation, "populationgrowth");
+    returnData.popGrowth = weightedProperty(nation, "populationgrowth");
     returnData.gdpPerCapita = returnData.gdp / returnData.population;
     return returnData;
   }
