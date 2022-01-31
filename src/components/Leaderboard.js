@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { useEffect } from "react";
 import generateNationStats from "../helpers/generateNationStats";
+import "../assets/styles/style.css";
 // It should be positioned absolutely on the bottom left of the screen, should be scrollable, and should be responsive to the screen size.
 // The component should render a list of countries, each with their ranking, name, and the statistic.
 // The leaderboard statistic is passed in as a prop.
@@ -10,22 +11,21 @@ export default function Leaderboard(props) {
   const [nations, setNations] = useState([]);
   const [countryData, setCountryData] = useState([]);
 
-  const populateNationStats = () => {
-    // Loop through countryData
-    let nt = [];
-    countryData.forEach((country) => {
-      var nationStats = generateNationStats(country.name);
-      if (nationStats != "undefined") {
-        nt.push(nationStats);
-      }
-    });
-    nt.sort((a, b) => {
-      return b[props.mapmode] - a[props.mapmode];
-    });
-    setNations(nt);
-  };
-
   useEffect(() => {
+    const populateNationStats = () => {
+      // Loop through countryData
+      let nt = [];
+      countryData.forEach((country) => {
+        var nationStats = generateNationStats(country.name);
+        if (nationStats != "undefined") {
+          nt.push(nationStats);
+        }
+      });
+      nt.sort((a, b) => {
+        return b[props.mapmode] - a[props.mapmode];
+      });
+      setNations(nt);
+    };
     // Set default props
     if (props.mapmode === undefined) {
       props.mapmode = "growth";
@@ -36,11 +36,11 @@ export default function Leaderboard(props) {
     return () => {
       setNations([]);
     };
-  }, [populateNationStats, props]);
+  }, [countryData, props]);
 
   return (
     <>
-      <div className="container" style={{ position: "absolute", bottom: 0, left: 0, zIndex: 100 }}>
+      <div className="leaderboard" style={{ zIndex: 100 }}>
         <div className="row">
           <div className="col-12">
             <div className="card">

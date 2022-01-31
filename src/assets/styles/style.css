@@ -8,3 +8,45 @@
  visibility: visible !important;
  opacity: 1 !important;
 }
+
+.leaderboard{
+  margin:auto;
+  top:50%;  
+  left:50%;
+  transform:translate(-50%,-50%);
+  position:absolute;
+}
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+  .leaderboard {
+    max-width: 100% !important;
+  }
+}
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+  .leaderboard {
+    max-width: 100% !important;
+  }
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+  .leaderboard {
+    max-width: 75% !important;
+  }
+}
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+  .leaderboard {
+    max-width: 50% !important;
+  }
+}
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {
+  .leaderboard {
+    max-width: 25% !important;
+  }
+}
