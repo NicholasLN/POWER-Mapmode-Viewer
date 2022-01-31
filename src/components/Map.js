@@ -256,12 +256,10 @@ export default function Map() {
       <ReactTooltip
         id="tooltip"
         className="extraClass"
-        effect="solid"
+        effect="float"
         getContent={(dataTip) => <p dangerouslySetInnerHTML={{ __html: dataTip }}></p>}
         delayShow={500}
         delayHide={500}
-        delayUpdate={500}
-        effect={"solid"}
         place={"right"}
       ></ReactTooltip>
     </>
