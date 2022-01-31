@@ -181,68 +181,72 @@ export default function Map() {
   }, [mapmode]);
   return (
     <>
-      <div className="map-controls" style={{ zIndex: "100", position: "absolute", margin: "auto" }}>
-        {showLeaderboard ? (
-          <button style={buttonStyle} onClick={(e) => setShowLeaderboard(false)}>
-            Hide Leaderboard
-          </button>
-        ) : (
-          <button style={buttonStyle} onClick={(e) => setShowLeaderboard(true)}>
-            Show Leaderboard
-          </button>
-        )}
-        {showButtons ? (
-          <button style={buttonStyle} onClick={(e) => setShowButtons(false)}>
-            Hide Buttons
-          </button>
-        ) : (
-          <button style={buttonStyle} onClick={(e) => setShowButtons(true)}>
-            Show Buttons
-          </button>
-        )}
-        {showButtons && (
-          <>
-            <button style={buttonStyle} onClick={(e) => setMapmode("growth")}>
-              GDP Growth
+      <div className="d-flex justify-content-center">
+        <div className="btn-group" style={{ zIndex: "100" }}>
+          {showLeaderboard ? (
+            <button className="btn btn-danger btn-sm" onClick={(e) => setShowLeaderboard(false)}>
+              Hide Leaderboard
             </button>
-            <button style={buttonStyle} onClick={(e) => setMapmode("popGrowth")}>
-              Population Growth
+          ) : (
+            <button className="btn btn-primary btn-sm" onClick={(e) => setShowLeaderboard(true)}>
+              Show Leaderboard
             </button>
-            <button style={buttonStyle} onClick={(e) => setMapmode("poverty")}>
-              Poverty
+          )}
+          {showButtons ? (
+            <button className="btn btn-danger btn-sm" onClick={(e) => setShowButtons(false)}>
+              Hide Buttons
             </button>
-            <button style={buttonStyle} onClick={(e) => setMapmode("unemployment")}>
-              Unemployment
+          ) : (
+            <button className="btn btn-primary btn-sm" onClick={(e) => setShowButtons(true)}>
+              Show Buttons
             </button>
-            <button style={buttonStyle} onClick={(e) => setMapmode("uninsured")}>
-              Uninsured
-            </button>
-            <button style={buttonStyle} onClick={(e) => setMapmode("lawAndOrder")}>
-              Law and Order (%)
-            </button>
-            <button style={buttonStyle} onClick={(e) => setMapmode("gini")}>
-              Gini
-            </button>
-            <button style={buttonStyle} onClick={(e) => setMapmode("population")}>
-              Population
-            </button>
-            <button style={buttonStyle} onClick={(e) => setMapmode("gdp")}>
-              GDP
-            </button>
-            <button style={buttonStyle} onClick={(e) => setMapmode("gdpPerCapita")}>
-              GDP Per Capita
-            </button>
-            <button style={buttonStyle} onClick={(e) => setMapmode("avgEP")}>
-              Average EP
-            </button>
-            <button style={buttonStyle} onClick={(e) => setMapmode("avgSP")}>
-              Average SP
-            </button>
-            <button style={buttonStyle} onClick={(e) => setMapmode("church")}>
-              Church Attendance
-            </button>
-          </>
-        )}
+          )}
+        </div>
+        <div className="btn-group flex-wrap" style={{ zIndex: "100", position: "absolute", bottom: "0", marginBottom: "10px" }}>
+          {showButtons && (
+            <>
+              <button className={mapmode === "growth" ? `btn btn-secondary btn-sm` : `btn btn-secondary btn-sm active`} onClick={(e) => setMapmode("growth")}>
+                GDP Growth
+              </button>
+              <button className={mapmode === "popGrowth" ? `btn btn-secondary btn-sm` : `btn btn-secondary btn-sm active`} onClick={(e) => setMapmode("popGrowth")}>
+                Population Growth
+              </button>
+              <button className={mapmode === "poverty" ? `btn btn-secondary btn-sm` : `btn btn-secondary btn-sm active`} onClick={(e) => setMapmode("poverty")}>
+                Poverty
+              </button>
+              <button className={mapmode === "unemployment" ? `btn btn-secondary btn-sm` : `btn btn-secondary btn-sm active`} onClick={(e) => setMapmode("unemployment")}>
+                Unemployment
+              </button>
+              <button className={mapmode === "uninsured" ? `btn btn-secondary btn-sm` : `btn btn-secondary btn-sm active`} onClick={(e) => setMapmode("uninsured")}>
+                Uninsured
+              </button>
+              <button className={mapmode === "lawAndOrder" ? `btn btn-secondary btn-sm` : `btn btn-secondary btn-sm active`} onClick={(e) => setMapmode("lawAndOrder")}>
+                Law and Order (%)
+              </button>
+              <button className={mapmode === "gini" ? `btn btn-secondary btn-sm` : `btn btn-secondary btn-sm active`} onClick={(e) => setMapmode("gini")}>
+                Gini
+              </button>
+              <button className={mapmode === "population" ? `btn btn-secondary btn-sm` : `btn btn-secondary btn-sm active`} onClick={(e) => setMapmode("population")}>
+                Population
+              </button>
+              <button className={mapmode === "gdp" ? `btn btn-secondary btn-sm` : `btn btn-secondary btn-sm active`} onClick={(e) => setMapmode("gdp")}>
+                GDP
+              </button>
+              <button className={mapmode === "gdpPerCapita" ? `btn btn-secondary btn-sm` : `btn btn-secondary btn-sm active`} onClick={(e) => setMapmode("gdpPerCapita")}>
+                GDP Per Capita
+              </button>
+              <button className={mapmode === "avgEP" ? `btn btn-secondary btn-sm` : `btn btn-secondary btn-sm active`} onClick={(e) => setMapmode("avgEP")}>
+                Average EP
+              </button>
+              <button className={mapmode === "avgSP" ? `btn btn-secondary btn-sm` : `btn btn-secondary btn-sm active`} onClick={(e) => setMapmode("avgSP")}>
+                Average SP
+              </button>
+              <button className={mapmode === "church" ? `btn btn-secondary btn-sm` : `btn btn-secondary btn-sm active`} onClick={(e) => setMapmode("church")}>
+                Church Attendance
+              </button>
+            </>
+          )}
+        </div>
       </div>
       {showLeaderboard && <Leaderboard mapmode={mapmode} countryData={countryData} />}
       <div style={style1}>
