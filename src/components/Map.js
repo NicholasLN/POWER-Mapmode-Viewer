@@ -33,6 +33,8 @@ export default function Map() {
   const [showButtons, setShowButtons] = useState(false);
   const [leaderboardStats, setLeaderboardStats] = useState([]);
   const [showLeaderboard, setShowLeaderboard] = useState(false);
+  // State for maintaining map zoom and pan
+  const [initZoom, setZoom] = useState({ x: 0, y: 0, k: 1 });
 
   const populateMap = () => {
     const svg = d3.select("svg").append("g");
@@ -170,10 +172,11 @@ export default function Map() {
     populateMap();
     ReactTooltip.rebuild();
     const handleZoom = (e) => {
+      setZoom({ x: e.transform.x, y: e.transform.y, k: e.transform.k });
       d3.select("svg g").attr("transform", e.transform);
     };
     let zoom = d3.zoom().on("zoom", handleZoom);
-    d3.select("#svgMap").call(zoom);
+    d3.select("#svgMap").call(zoom).call(zoom.transform, d3.zoomIdentity.translate(initZoom.x, initZoom.y).scale(initZoom.k));
 
     return () => {
       d3.select("svg").remove();
