@@ -1,0 +1,3 @@
+{ "border": "none", "color": "white", "backgroundColor": "#696969", "padding": "10px 20px", "textAlign": "center", "textDecoration": "none", "display": "inline-block", "fontSize": "12px",
+"fontFamily": "Lucida Console", "margin": "4px 2px", "cursor": "pointer"
+}

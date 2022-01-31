@@ -11,9 +11,11 @@
     "d3": "^7.3.0",
     "jsdom": "^19.0.0",
     "lodash": "^4.17.21",
+    "numeral": "^2.0.6",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-scripts": "5.0.0",
+    "react-tooltip": "^4.2.21",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
